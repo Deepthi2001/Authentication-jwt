@@ -72,7 +72,7 @@ app.get('/api/dashboard', jwtMW, (req, res) => {
     });
 });
 
-app.get('/api/settinga', jwtMW, (req, res) => {
+app.get('/api/settings', jwtMW, (req, res) => {
     console.log(req,"Settings REQ");
     res.json({
         success: true,

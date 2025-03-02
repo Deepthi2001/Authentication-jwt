@@ -52,6 +52,13 @@
             })
         }
 
+        function handleAuthenticationError(err){
+            if (err.response && err.response.status === 401) {
+                    alert("Session expired. Redirecting to login.");
+                    localStorage.removeItem("jwtToken");
+                    window.location.href = "/";
+            }
+        }
         function getDashboard() {
             const token = localStorage.getItem("jwtToken");
             axios
@@ -67,8 +74,13 @@
                     document.querySelector("main").innerHTML = res.data.myContent;
                     history.pushState({}, "", "/dashboard");
                 }
-            });
+            })
+            .catch((err) => {
+                handleAuthenticationError(err)
+        });
         }
+
+        
 
         function getSettings() {
             const token = localStorage.getItem("jwtToken");
@@ -85,8 +97,15 @@
                     document.querySelector("main").innerHTML = res.data.myContent;
                     history.pushState({}, "", "/settings");
                 }
-            });
+            })
+            .catch((err) => {
+                handleAuthenticationError(err)
+        });
         }
+
+        window.onpopstate = function () {
+          location.reload();
+        };
     </script>
 </body>
 </html>
