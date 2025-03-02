@@ -53,6 +53,7 @@
         }
 
         function handleAuthenticationError(err){
+            console.log("error handleauthentication",err)
             if (err.response && err.response.status === 401) {
                     alert("Session expired. Redirecting to login.");
                     localStorage.removeItem("jwtToken");
