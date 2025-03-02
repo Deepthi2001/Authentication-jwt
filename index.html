@@ -103,9 +103,31 @@
         });
         }
 
-        window.onpopstate = function () {
-          location.reload();
-        };
+        window.onpopstate = function (event) {
+            if (window.location.pathname === "/dashboard") {
+                getDashboard(); // Reload dashboard content
+            } else if (window.location.pathname === "/settings") {
+                getSettings(); // Reload settings content
+            } else {
+                // Ensure that if the user goes back to the login page, the content updates
+                document.querySelector("h1.row").innerHTML = "Login";
+                document.querySelector("main").innerHTML = `
+                <div class="row">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" />
+                </div>
+                <div class="row">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" />
+                </div>
+                <div>
+                    <button onclick="login()">Login</button>
+                    <button onclick="getDashboard()">Get Dashboard</button>
+                    <button onclick="getSettings()">Get Settings</button>
+                </div>
+                `;
+            }
+    };
     </script>
 </body>
 </html>
