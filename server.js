@@ -42,7 +42,6 @@ app.get('/',(req,res)=>{
 
 app.post('/api/login',(req,res)=>{
     const {username, password} = req.body;
-    console.log(username,password,"  -  username,password");
     for (let user of users) {
         if(username == user.username && password == user.password){
             let token = jwt.sign({id: user.id, username: user.username}, secretKey, {expiresIn: '3m'} )
@@ -53,19 +52,16 @@ app.post('/api/login',(req,res)=>{
             });
             break;
         }
-        else{
-            res.status(401).json({
-                success: false,
-                token:null,
-                err: 'Username or password is incorrect'
-            })
-        }
-    }  
+    }
+    res.status(401).json({
+        success: false,
+        token:null,
+        err: 'Username or password is incorrect'
+    })
 
 })
 
 app.get('/api/dashboard', jwtMW, (req, res) => {
-    console.log(req,"DASHBOARD REQ");
     res.json({
         success: true,
         myContent: 'Secret content that only logged in people can see!!!'
@@ -73,7 +69,6 @@ app.get('/api/dashboard', jwtMW, (req, res) => {
 });
 
 app.get('/api/settings', jwtMW, (req, res) => {
-    console.log(req,"Settings REQ");
     res.json({
         success: true,
         myContent: 'This is settings content for authenticated users!!!'
